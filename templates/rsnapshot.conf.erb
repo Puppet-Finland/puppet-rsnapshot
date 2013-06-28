@@ -1,0 +1,103 @@
+### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
+
+#################################################
+# rsnapshot.conf - rsnapshot configuration file #
+#################################################
+#                                               #
+# PLEASE BE AWARE OF THE FOLLOWING RULES:       #
+#                                               #
+# This file requires tabs between elements      #
+#                                               #
+# Directories require a trailing slash:         #
+#   right: /home/                               #
+#   wrong: /home                                #
+#                                               #
+#################################################
+
+config_version	1.2
+
+# All snapshots will be stored under this root directory.
+snapshot_root	<%= snapshot_root %>
+
+# External commands
+cmd_cp		/bin/cp
+cmd_rm		/bin/rm
+cmd_rsync	/usr/bin/rsync
+cmd_ssh		/usr/bin/ssh
+cmd_logger	/usr/bin/logger
+cmd_du		/usr/bin/du
+cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
+#cmd_preexec	/path/to/preexec/script
+#cmd_postexec	/path/to/postexec/script
+
+# Backup intervals
+<% retains.each do |retain| -%>
+retain	<%= retain %>
+<% end -%>
+
+### Global options
+
+# Verbosity: 1-5
+verbose		2
+
+# Same as above but for writing to log files
+loglevel	3
+
+logfile	/var/log/rsnapshot.log
+
+# Make sure rsnapshot does not run if a process exists already
+lockfile	/var/run/rsnapshot.pid
+
+# Default rsync args. All rsync commands have at least these options set.
+#rsync_short_args	-a
+#rsync_long_args	--delete --numeric-ids --relative --delete-excluded
+
+# In case the network is unreliable we can increase connection timeouts
+#rsync_short_args	-ac
+#rsync_long_args	--delete --numeric-ids --relative --delete-excluded --timeout=120
+
+# ssh has no args passed by default, but you can specify some here.
+ssh_args	-p 22
+
+# Args for "du"
+#du_args	-csh
+
+# Stay within one filesystem when backing up
+#one_fs		0
+
+# The include and exclude parameters, if enabled, simply get passed directly
+# to rsync. If you have multiple include/exclude patterns, put each one on a
+# separate line. Please look up the --include and --exclude options in the
+# rsync man page for more details on how to specify file name patterns. 
+# 
+#include	???
+#include	???
+#exclude	???
+#exclude	???
+
+<% excludes.each do |exclude| -%>
+exclude	<%= exclude %>
+<% end -%>
+
+# Files containing include and exclude patterns
+#include_file	/path/to/include/file
+#exclude_file	/path/to/exclude/file
+
+# If your version of rsync supports --link-dest, consider enable this.
+# This is the best way to support special files (FIFOs, etc) cross-platform.
+# The default is 0 (off).
+#
+#link_dest	0
+
+# Rotate first (default) or sync first?
+#sync_first	1
+
+#use_lazy_deletes	0
+
+###############################
+### BACKUP POINTS / SCRIPTS ###
+###############################
+
+<% backups.each do |backup| -%>
+backup	<%= backup %>
+<% end -%>
