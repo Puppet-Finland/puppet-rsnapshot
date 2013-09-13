@@ -43,6 +43,10 @@ class rsnapshot
     $backups = ['']
 )
 {
+
+# Rationale for this is explained in init.pp of the sshd module
+if hiera('manage_rsnapshot') != 'false' {
+
     include rsnapshot::install
 
     class { 'rsnapshot::config':
@@ -50,4 +54,5 @@ class rsnapshot
         excludes => $excludes,
         backups => $backups,
     }
+}
 }
