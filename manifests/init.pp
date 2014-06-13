@@ -17,6 +17,11 @@
 #   An array containing _tab-separated_ strings containing the backup source and 
 #   the backup destination. No default value. See the Examples section for an 
 #   example.
+# [*retains*]
+#   An array containing _tab-separated_ strings containing the retain lines. No 
+#   default value. The values have to be defined in order from smallest (hourly) 
+#   to largest (yearly) or rsnapshot will produce strange results and possibly 
+#   destroy backups during rotation.
 #
 # == Examples
 #
@@ -25,6 +30,9 @@
 #   excludes => [],
 #   backups => ['/etc/						localhost/',
 #               'root@server.domain.com		server/'],
+#   retain => ['daily	7',
+#              'weekly	4',
+#              'monthly	6']
 # }
 #
 # == Authors
@@ -40,7 +48,8 @@ class rsnapshot
 (
     $snapshot_root = '/var/backups/rsnapshot',
     $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
-    $backups = ['']
+    $backups = [''],
+    $retains = ['']
 )
 {
 
@@ -53,6 +62,7 @@ if hiera('manage_rsnapshot', 'true') != 'false' {
         snapshot_root => $snapshot_root,
         excludes => $excludes,
         backups => $backups,
+        retains => $retains,
     }
 }
 }

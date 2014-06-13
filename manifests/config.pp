@@ -9,7 +9,8 @@ class rsnapshot::config
 (
     $snapshot_root,
     $excludes,
-    $backups
+    $backups,
+    $retains
 )
 {
 
@@ -22,15 +23,13 @@ class rsnapshot::config
         mode => 755,
     }
 
-    # Interestingly, this resource definition has to be virtual, or appending to 
-    # the $retain parameter using +> from within rsnapshot::interval does not 
-    # work. However, even appending from a class always works. Go figure...
-    #
-    # This virtual approach ensures that rsnapshot.conf is not realized until 
-    # we've included at least one rsnapshot::virtual resource definition.
-    @rsnapshot::config::file { 'default-rsnapshot.conf':
-        snapshot_root => $snapshot_root,
-        excludes => $excludes,
-        backups => $backups,
+    file { 'rsnapshot.conf':
+        ensure => present,
+        name => '/etc/rsnapshot.conf',
+        owner => root,
+        group => root,
+        mode => 644,
+        content => template('rsnapshot/rsnapshot.conf.erb'),
+        require => File['rsnapshot-snapshot-root'],
     }
 }

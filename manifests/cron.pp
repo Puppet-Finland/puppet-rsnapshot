@@ -1,7 +1,11 @@
 #
-# == Define: rsnapshot::interval
+# == Define: rsnapshot::cron
 #
-# Configure rsnapshot's schedules and retaining periods
+# Configure rsnapshot's schedules.
+#
+# Retain period unfortunately have to be configured in the main rsnapshot class 
+# due to Puppet's unordered execution model coupled with rsnapshot's dependence 
+# on correct ordering for the retain lines.
 #
 # == Parameters
 #
@@ -9,8 +13,6 @@
 #   Although not strictly a parameter, the resource title is used as an 
 #   identifier for both rsnapshot and puppet. Typically it would be 'hourly', 
 #   'daily', 'weekly' or 'monthly', with the appropriate schedule.
-# [*retain*]
-#   How many backups of this type (e.g. daily) to keep
 # [*minute*]
 #   Minute(s) when this rsnapshot job gets run. No default value.
 # [*hour*]
@@ -28,34 +30,29 @@
 #
 # A typical setup might look like this:
 #
-# rsnapshot::interval { 'hourly':
-#   retain => 24,
+# rsnapshot::cron { 'hourly':
 #   minute => 40,
 # }
 #
-# rsnapshot::interval { 'daily':
-#   retain => 7,
+# rsnapshot::cron { 'daily':
 #   minute => 40,
 #   hour => 4,
 # }
 #
-# rsnapshot::interval { 'weekly':
-#   retain => 4,
+# rsnapshot::cron { 'weekly':
 #   minute => 20,
 #   hour => 5,
 #   weekday => 6,
 # }
 #
-# rsnapshot::interval { 'monthly':
-#   retain => 6,
+# rsnapshot::cron { 'monthly':
 #   minute => 0,
 #   hour => 6,
 #   monthday => 1,
 # }
 #
-define rsnapshot::interval
+define rsnapshot::cron
 (
-    $retain,
     $minute,
     $hour='*',
     $weekday='*',
@@ -74,9 +71,4 @@ define rsnapshot::interval
         monthday => $monthday,
         environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
 	}
-
-    # Add a "retain" line to rsnapshot.conf
-    Rsnapshot::Config::File <| title == 'default-rsnapshot.conf' |> {
-        retains +> "${title}	${retain}",
-    }
 }
