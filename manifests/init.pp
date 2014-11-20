@@ -25,15 +25,15 @@
 #
 # == Examples
 #
-# class { 'rsnapshot':
-#   snapshot_root => '/var/rsnapshot',
-#   excludes => [],
-#   backups => ['/etc/						localhost/',
-#               'root@server.domain.com		server/'],
-#   retain => ['daily	7',
-#              'weekly	4',
-#              'monthly	6']
-# }
+#   class { 'rsnapshot':
+#       snapshot_root => '/var/rsnapshot',
+#       excludes => [],
+#       backups => ['/etc/						localhost/',
+#                   'root@server.domain.com		server/'],
+#       retain => ['daily	7',
+#                  'weekly	4',
+#                  'monthly	6']
+#   }
 #
 # == Authors
 #
@@ -41,8 +41,7 @@
 #
 # == License
 #
-# BSD-lisence
-# See file LICENSE for details
+# BSD-license. See file LICENSE for details.
 #
 class rsnapshot
 (
