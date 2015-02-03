@@ -22,6 +22,8 @@
 #   default value. The values have to be defined in order from smallest (hourly) 
 #   to largest (yearly) or rsnapshot will produce strange results and possibly 
 #   destroy backups during rotation.
+# [*crons*]
+#   A hash of rsnapshot::cron resources to to realize.
 #
 # == Examples
 #
@@ -48,7 +50,8 @@ class rsnapshot
     $snapshot_root = '/var/backups/rsnapshot',
     $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
     $backups = [''],
-    $retains = ['']
+    $retains = [''],
+    $crons = {}
 )
 {
 
@@ -63,5 +66,7 @@ if hiera('manage_rsnapshot', 'true') != 'false' {
         backups => $backups,
         retains => $retains,
     }
+
+    create_resources('rsnapshot::cron', $crons)
 }
 }
