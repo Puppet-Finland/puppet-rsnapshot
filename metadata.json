@@ -1,11 +1,12 @@
 {
   "name": "puppetfinland-rsnapshot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Puppet-Finland team",
   "license": "BSD license",
   "summary": "Setup rsnapshot",
   "source": "https://github.com/Puppet-Finland/rsnapshot.git",
   "project_page": "https://github.com/Puppet-Finland/rsnapshot",
   "dependencies": [
+    { "name": "puppetfinland/os", "version_requirement": ">= 0.5.6" }
   ]
 }

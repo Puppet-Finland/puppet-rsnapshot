@@ -11,24 +11,25 @@ class rsnapshot::config
     $excludes,
     $backups,
     $retains
-)
+
+) inherits rsnapshot::params
 {
 
     # Ensure the backup root directory is present
     file { 'rsnapshot-snapshot-root':
-        name => $snapshot_root,
         ensure => directory,
-        owner => root,
-        group => root,
-        mode => 755,
+        name   => $snapshot_root,
+        owner  => $::os::params::adminuser,
+        group  => $::os::params::admingroup,
+        mode   => '0755',
     }
 
     file { 'rsnapshot.conf':
-        ensure => present,
-        name => '/etc/rsnapshot.conf',
-        owner => root,
-        group => root,
-        mode => 644,
+        ensure  => present,
+        name    => '/etc/rsnapshot.conf',
+        owner   => $::os::params::adminuser,
+        group   => $::os::params::admingroup,
+        mode    => '0644',
         content => template('rsnapshot/rsnapshot.conf.erb'),
         require => File['rsnapshot-snapshot-root'],
     }

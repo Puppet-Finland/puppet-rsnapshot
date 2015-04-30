@@ -8,6 +8,9 @@
 #
 # == Parameters
 #
+# [*manage*]
+#   Whether to manage rsnapshot with Puppet or not. Valid values are 'yes' 
+#   (default) and 'no'.
 # [*snapshot_root*]
 #   The directory where backups are placed. Defaults to '/var/backups/rsnapshot'.
 # [*excludes*]
@@ -47,6 +50,7 @@
 #
 class rsnapshot
 (
+    $manage = 'yes',
     $snapshot_root = '/var/backups/rsnapshot',
     $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
     $backups = [''],
@@ -55,16 +59,15 @@ class rsnapshot
 )
 {
 
-# Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_rsnapshot', 'true') != 'false' {
+if $manage == 'yes' {
 
-    include rsnapshot::install
+    include ::rsnapshot::install
 
-    class { 'rsnapshot::config':
+    class { '::rsnapshot::config':
         snapshot_root => $snapshot_root,
-        excludes => $excludes,
-        backups => $backups,
-        retains => $retains,
+        excludes      => $excludes,
+        backups       => $backups,
+        retains       => $retains,
     }
 
     create_resources('rsnapshot::cron', $crons)

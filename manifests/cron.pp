@@ -60,15 +60,18 @@ define rsnapshot::cron
     $email=$::servermonitor
 )
 {
+
+    include ::rsnapshot::params
+
     # Setup a cronjob
-	cron { "rsnapshot-${title}":
-		ensure => present,
-		command => "rsnapshot ${title}",
-		user => root,
-		hour => $hour,
-		minute => $minute,
-        weekday => $weekday,
-        monthday => $monthday,
+    cron { "rsnapshot-${title}":
+        ensure      => present,
+        command     => "rsnapshot ${title}",
+        user        => $::os::params::adminuser,
+        hour        => $hour,
+        minute      => $minute,
+        weekday     => $weekday,
+        monthday    => $monthday,
         environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
-	}
+    }
 }
