@@ -17,7 +17,7 @@
 config_version	1.2
 
 # All snapshots will be stored under this root directory.
-snapshot_root	<%= snapshot_root %>
+snapshot_root	<%= @snapshot_root %>
 
 # External commands
 cmd_cp		/bin/cp
@@ -31,7 +31,7 @@ cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
 #cmd_postexec	/path/to/postexec/script
 
 # Backup intervals
-<% retains.each do |retain| -%>
+<% @retains.each do |retain| -%>
 retain	<%= retain %>
 <% end -%>
 
@@ -75,7 +75,7 @@ ssh_args	-p 22
 #exclude	???
 #exclude	???
 
-<% excludes.each do |exclude| -%>
+<% @excludes.each do |exclude| -%>
 exclude	<%= exclude %>
 <% end -%>
 
@@ -98,6 +98,6 @@ exclude	<%= exclude %>
 ### BACKUP POINTS / SCRIPTS ###
 ###############################
 
-<% backups.each do |backup| -%>
+<% @backups.each do |backup| -%>
 backup	<%= backup %>
 <% end -%>
