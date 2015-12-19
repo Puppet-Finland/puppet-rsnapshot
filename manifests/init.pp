@@ -9,40 +9,33 @@
 # == Parameters
 #
 # [*manage*]
-#   Whether to manage rsnapshot with Puppet or not. Valid values are 'yes' 
-#   (default) and 'no'.
+#   Whether to manage rsnapshot with Puppet or not. Valid values are true 
+#   (default) and false.
 # [*snapshot_root*]
 #   The directory where backups are placed. Defaults to '/var/backups/rsnapshot'.
 # [*excludes*]
 #   An array of paths to exclude. Defaults to [ '/tmp', '/media', '/mnt', 
 # '/proc', '/sys']. Define as [] to exclude nothing.
 # [*backups*]
-#   An array containing _tab-separated_ strings containing the backup source and 
-#   the backup destination. No default value. See the Examples section for an 
-#   example.
+#   An array containing hashes, where the key is the source (e.g. '/etc/' or 
+#   'root@server.domain.com:/var/backups') and the value is the target (e.g. 
+#   'localhost/' or 'server/'.
 # [*retains*]
-#   An array containing _tab-separated_ strings containing the retain lines. No 
-#   default value. The values have to be defined in order from smallest (hourly) 
-#   to largest (yearly) or rsnapshot will produce strange results and possibly 
-#   destroy backups during rotation.
+#   Same as $backups, above, but the keys are symbolic names for retain entries 
+#   (e.g. 'daily', 'weekly' or 'monthly') and the keys are the number of backups 
+#   of that type to retain.
 # [*crons*]
 #   A hash of rsnapshot::cron resources to to realize.
 #
 # == Examples
 #
-#   class { 'rsnapshot':
-#       snapshot_root => '/var/rsnapshot',
-#       excludes => [],
-#       backups => ['/etc/						localhost/',
-#                   'root@server.domain.com		server/'],
-#       retain => ['daily	7',
-#                  'weekly	4',
-#                  'monthly	6']
-#   }
+# See README.md in the module root directory.
 #
 # == Authors
 #
 # Samuli Seppänen <samuli@openvpn.net>
+#
+# Samuli Seppänen <samuli.seppanen@gmail.com>
 #
 # == License
 #
@@ -50,16 +43,18 @@
 #
 class rsnapshot
 (
-    $manage = 'yes',
+    $manage = true,
     $snapshot_root = '/var/backups/rsnapshot',
     $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
-    $backups = [''],
-    $retains = [''],
+    $backups = [],
+    $retains = [],
     $crons = {}
 )
 {
 
-if $manage == 'yes' {
+validate_bool($manage)
+
+if $manage {
 
     include ::rsnapshot::install
 

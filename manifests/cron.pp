@@ -28,28 +28,7 @@
 #
 # == Examples
 #
-# A typical setup might look like this:
-#
-#   rsnapshot::cron { 'hourly':
-#       minute => 40,
-#   }
-#   
-#   rsnapshot::cron { 'daily':
-#       minute => 40,
-#       hour => 4,
-#   }
-#   
-#   rsnapshot::cron { 'weekly':
-#       minute => 20,
-#       hour => 5,
-#       weekday => 6,
-#   }
-#   
-#   rsnapshot::cron { 'monthly':
-#       minute => 0,
-#       hour => 6,
-#       monthday => 1,
-#   }
+# See README.md in the module root directory.
 #
 define rsnapshot::cron
 (

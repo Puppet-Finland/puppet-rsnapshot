@@ -32,7 +32,9 @@ cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
 
 # Backup intervals
 <% @retains.each do |retain| -%>
-retain	<%= retain %>
+<% retain.each_pair do |name, number| -%>
+retain	<%= name %>	<%= number %>
+<% end -%>
 <% end -%>
 
 ### Global options
@@ -75,8 +77,8 @@ ssh_args	-p 22
 #exclude	???
 #exclude	???
 
-<% @excludes.each do |exclude| -%>
-exclude	<%= exclude %>
+<% @exclude_lines.each do |exclude_line| -%>
+<%= exclude_line %>
 <% end -%>
 
 # Files containing include and exclude patterns
@@ -99,5 +101,7 @@ exclude	<%= exclude %>
 ###############################
 
 <% @backups.each do |backup| -%>
-backup	<%= backup %>
+<% backup.each_pair do |source, target| -%>
+backup	<%= source %>	<%= target %>
+<% end -%>
 <% end -%>

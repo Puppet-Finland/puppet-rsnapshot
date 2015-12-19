@@ -14,6 +14,16 @@ class rsnapshot::config
 
 ) inherits rsnapshot::params
 {
+    validate_string($snapshot_root)
+    validate_array($excludes)
+    validate_array($backups)
+    validate_array($retains)
+
+    # We need to convert the excludes parameter into actual rsnapshot config 
+    # line here, because yaml does not like tabs, and rsnapshot.conf requires 
+    # them. The $backups and $retains parameters contain hashes which are
+    # processed inside the template.
+    $exclude_lines = prefix($excludes, 'exclude	')
 
     # Ensure the backup root directory is present
     file { 'rsnapshot-snapshot-root':
