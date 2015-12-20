@@ -52,6 +52,17 @@ rsnapshot will start "eating" its own backups; the more frequent backups (e.g.
 "daily") should be defined earlier than and also run before the less frequent 
 ones (e.g. "monthly). Aping the above configuration is probably the safest bet.
 
+Use the _rsnapshot::allow_ class to allow connections to hosts to be backed up:
+
+    classes:
+        - rsnapshot::allow
+    
+    rsnapshot::allow::host: '10.122.49.4'
+    rsnapshot::allow::key: '<rsnapshot's public key as a string>'
+
+The IP address is added to SSH authorized_keys options, so that the given key is 
+only valid if the connection comes from the given host.
+
 For more details on module usage refer to these source files:
 
 * [Class: rsnapshot](manifests/init.pp)
