@@ -70,6 +70,7 @@ keys (sshkey type) that are collected on the rsnapshot host.
 For more details on module usage refer to these source files:
 
 * [Class: rsnapshot](manifests/init.pp)
+* [Class: rsnapshot::allow](manifests/allow.pp)
 * [Define: rsnapshot::cron](manifests/cron.pp)
 
 # Dependencies
