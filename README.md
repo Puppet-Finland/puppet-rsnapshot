@@ -63,6 +63,10 @@ Use the _rsnapshot::allow_ class to allow connections to hosts to be backed up:
 The IP address is added to SSH authorized_keys options, so that the given key is 
 only valid if the connection comes from the given host.
 
+Finally run "rsnapshot daily" or such manually, and accept the SSH keys as 
+needed. Later this manual procedure should be replaced with exported SSH host 
+keys (sshkey type) that are collected on the rsnapshot host.
+
 For more details on module usage refer to these source files:
 
 * [Class: rsnapshot](manifests/init.pp)
