@@ -1,0 +1,11 @@
+--- rsnapshot.orig	2015-12-19 19:00:01.306030835 +0200
++++ rsnapshot	2015-12-19 19:00:48.885761376 +0200
+@@ -3456,7 +3456,7 @@
+ 		
+ 		# if we have any args for SSH, add them
+ 		if ( defined($ssh_args) ) {
+-			push( @rsync_long_args_stack, "--rsh=\"$config_vars{'cmd_ssh'} $ssh_args\"" );
++			push( @rsync_long_args_stack, "--rsh=$config_vars{'cmd_ssh'} $ssh_args" );
+ 			
+ 		# no arguments is the default
+ 		} else {

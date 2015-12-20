@@ -43,4 +43,13 @@ class rsnapshot::config
         content => template('rsnapshot/rsnapshot.conf.erb'),
         require => File['rsnapshot-snapshot-root'],
     }
+
+    # Add SSH keys for rsnapshot
+    include ::rsnapshot::config::ssh
+
+    # Patch a bug in rsnapshot in Debian Jessie
+    if $::lsbdistcodename == 'jessie' {
+        include ::rsnapshot::config::jessie
+    }
+
 }

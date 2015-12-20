@@ -4,7 +4,21 @@ A Puppet module for managing rsnapshot
 
 # Module usage
 
-Using this module from Hiera is fairly straightforward:
+First you need to create a public/private SSH keypair for rsnapshot, for example
+with 'ssh-keygen'. Then add a global "files" directory to the Puppet fileserver
+config, if not present. In Puppet 4 the fileserver configuration is in
+_/etc/puppetlabs/puppet/fileserver.conf_, and it should have something like this
+in it:
+
+    [files]
+      path /etc/puppetlabs/code/files
+      allow *
+
+Copy the SSH keys to that fileserver directory, named as
+_rsnapshot-public-ssh-key_ and _rsnapshot-private-ssh-key_.
+
+Once the keys are on the fileserver, you can include the rsnapshot module in
+Hiera:
 
     classes:
         - rsnapshot
