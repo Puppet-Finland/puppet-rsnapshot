@@ -45,6 +45,25 @@ Hiera:
             hour: 14
             monthday: 1
 
+Another example from a Puppet profile:
+
+    class { '::rsnapshot':
+        snapshot_root => '/var/backups/rsnapshot',
+        retains       => [  { 'daily'   => 7 }, { 'weekly'  => 4 }, { 'monthly' => 7 }, ],
+        crons         => {  'daily'   => { 'minute' => 30, 'hour' => 6, },
+                            'weekly'  => { 'minute' => 30, 'hour' => 5, 'weekday'  => 6 },
+                            'monthly' => { 'minute' => 30, 'hour' => 4, 'monthday' => 1 }, },
+        backups       => hiera('rsnapshot_backups'),
+    }
+
+The "rsnapshot_backups" variable in Hiera would be in the same format as above, 
+for example
+
+    rsnapshot::backups:
+        - '/etc/': 'backup.domain.com/'
+        - '/var/backups/local/': 'backup.domain.com/'
+        - 'root@server.domain.com:/etc/': 'server.domain.com/'
+
 Note that the titles of the rsnapshot::cron resources need to match those given 
 for retains in the main class - here "daily", "weekly" and "monthly". Also note 
 that the "retain" parameters _need_ to be determined in the correct order, or 
