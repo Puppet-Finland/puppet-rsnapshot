@@ -6,11 +6,11 @@
 #
 class rsnapshot::allow
 (
-    $host,
-    $key,
-    $key_type = 'rsa',
-    $ensure = 'present',
-    $user = 'root'
+    String                   $host,
+    String                   $key,
+    String                   $key_type = 'rsa',
+    Enum['present','absent'] $ensure = 'present',
+    String                   $user = 'root'
 )
 {
     ssh_authorized_key { "rsnapshot-${user}":

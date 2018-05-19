@@ -43,16 +43,14 @@
 #
 class rsnapshot
 (
-    $manage = true,
-    $snapshot_root = '/var/backups/rsnapshot',
-    $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
-    $backups = [],
-    $retains = [],
-    $crons = {}
+    Boolean       $manage = true,
+    String        $snapshot_root = '/var/backups/rsnapshot',
+    Array[String] $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
+    Array         $backups = [],
+    Array         $retains = [],
+    Hash          $crons = {}
 )
 {
-
-validate_bool($manage)
 
 if $manage {
 

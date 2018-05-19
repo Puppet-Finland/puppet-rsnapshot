@@ -32,11 +32,11 @@
 #
 define rsnapshot::cron
 (
-    $minute,
-    $hour='*',
-    $weekday='*',
-    $monthday='*',
-    $email=$::servermonitor
+    Variant[String,Integer] $minute,
+    Variant[String,Integer] $hour='*',
+    Variant[String,Integer] $weekday='*',
+    Variant[String,Integer] $monthday='*',
+    String                  $email=$::servermonitor
 )
 {
 

@@ -7,18 +7,13 @@
 #
 class rsnapshot::config
 (
-    $snapshot_root,
-    $excludes,
-    $backups,
-    $retains
+    String $snapshot_root,
+    Array  $excludes,
+    Array  $backups,
+    Array  $retains
 
 ) inherits rsnapshot::params
 {
-    validate_string($snapshot_root)
-    validate_array($excludes)
-    validate_array($backups)
-    validate_array($retains)
-
     # We need to convert the excludes parameter into actual rsnapshot config 
     # line here, because yaml does not like tabs, and rsnapshot.conf requires 
     # them. The $backups and $retains parameters contain hashes which are
