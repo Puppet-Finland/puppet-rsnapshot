@@ -2,12 +2,42 @@
   "name": "puppetfinland-rsnapshot",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "license": "BSD-2-Clause",
   "summary": "Setup rsnapshot",
-  "source": "https://github.com/Puppet-Finland/rsnapshot.git",
-  "project_page": "https://github.com/Puppet-Finland/rsnapshot",
+  "license": "BSD-2-Clause",
+  "source": "https://github.com/Puppet-Finland/puppet-rsnapshot.git",
+  "project_page": "https://github.com/Puppet-Finland/puppet-rsnapshot",
   "dependencies": [
-    { "name": "puppetfinland/os", "version_requirement": ">= 0.5.6" },
-    { "name": "puppetlabs/stdlib", "version_requirement": ">= 4.0.0" }
-  ]
+    {
+      "name": "puppetfinland/os",
+      "version_requirement": ">= 0.5.6"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
+    }
+  ],
+  "pdk-version": "1.4.1",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.4.1-0-g52adbbb"
 }
