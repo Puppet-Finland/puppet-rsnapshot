@@ -1,6 +1,6 @@
 # rsnapshot
 
-A Puppet module for managing rsnapshot
+A Puppet module for managing rsnapshot.
 
 # Module usage
 
@@ -91,16 +91,3 @@ For more details on module usage refer to these source files:
 * [Class: rsnapshot](manifests/init.pp)
 * [Class: rsnapshot::allow](manifests/allow.pp)
 * [Define: rsnapshot::cron](manifests/cron.pp)
-
-# Dependencies
-
-See [metadata.json](metadata.json).
-
-# Operating system support
-
-This module has been tested on
-
-* Debian 7 and 8
-
-Other *NIX-like operating systems should work out of the box or with small 
-modifications.
