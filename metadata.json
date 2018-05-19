@@ -2,7 +2,7 @@
   "name": "puppetfinland-rsnapshot",
   "version": "1.0.0",
   "author": "Puppet-Finland team",
-  "license": "BSD license",
+  "license": "BSD-2-Clause",
   "summary": "Setup rsnapshot",
   "source": "https://github.com/Puppet-Finland/rsnapshot.git",
   "project_page": "https://github.com/Puppet-Finland/rsnapshot",
