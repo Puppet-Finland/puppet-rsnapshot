@@ -5,6 +5,7 @@
   "summary": "Setup rsnapshot",
   "license": "BSD-2-Clause",
   "source": "https://github.com/Puppet-Finland/puppet-rsnapshot.git",
+  "issues_url": "https://github.com/Puppet-Finland/puppet-rsnapshot/issues",
   "project_page": "https://github.com/Puppet-Finland/puppet-rsnapshot",
   "dependencies": [
     {
