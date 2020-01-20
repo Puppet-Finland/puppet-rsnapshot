@@ -10,7 +10,8 @@ class rsnapshot::config
     String $snapshot_root,
     Array  $excludes,
     Array  $backups,
-    Array  $retains
+    Array  $retains,
+    String $private_key_content,
 
 ) inherits rsnapshot::params
 {
@@ -40,7 +41,9 @@ class rsnapshot::config
     }
 
     # Add SSH keys for rsnapshot
-    include ::rsnapshot::config::ssh
+    class { '::rsnapshot::config::ssh':
+        private_key_content => $private_key_content,
+    }
 
     # Patch a bug in rsnapshot in Debian Jessie
     if $::lsbdistcodename == 'jessie' {

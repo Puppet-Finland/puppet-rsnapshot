@@ -4,25 +4,14 @@ A Puppet module for managing rsnapshot.
 
 # Module usage
 
-First you need to create a public/private SSH keypair for rsnapshot, for example
-with 'ssh-keygen'. Then add a global "files" directory to the Puppet fileserver
-config, if not present. In Puppet 4 the fileserver configuration is in
-_/etc/puppetlabs/puppet/fileserver.conf_, and it should have something like this
-in it:
-
-    [files]
-      path /etc/puppetlabs/code/files
-      allow *
-
-Copy the SSH keys to that fileserver directory, named as
-_rsnapshot-public-ssh-key_ and _rsnapshot-private-ssh-key_.
-
-Once the keys are on the fileserver, you can include the rsnapshot module in
-Hiera:
+First you need to create a public/private SSH keypair for rsnapshot, for
+example with 'ssh-keygen'. Then add the private and public key to Hiera. Then
+you can include the rsnapshot class and give it the parameters you want:
 
     classes:
         - rsnapshot
 
+    rsnapshot::private_key_content: 'your-private-key'
     rsnapshot::snapshot_root: '/backup/rsnapshot'
     rsnapshot::backups:
         - '/etc/': 'backup.domain.com/'
@@ -47,16 +36,20 @@ Hiera:
 
 Another example from a Puppet profile:
 
+    $private_key_content = lookup('profile::rsnapshot::private_key_content', String)
+    $backups = lookup('profile::rsnapshot::backups')    
+
     class { '::rsnapshot':
-        snapshot_root => '/var/backups/rsnapshot',
-        retains       => [  { 'daily'   => 7 }, { 'weekly'  => 4 }, { 'monthly' => 7 }, ],
-        crons         => {  'daily'   => { 'minute' => 30, 'hour' => 6, },
-                            'weekly'  => { 'minute' => 30, 'hour' => 5, 'weekday'  => 6 },
-                            'monthly' => { 'minute' => 30, 'hour' => 4, 'monthday' => 1 }, },
-        backups       => hiera('rsnapshot_backups'),
+        private_key_content => $private_key_content,
+        snapshot_root       => '/var/backups/rsnapshot',
+        retains             => [  { 'daily'   => 7 }, { 'weekly'  => 4 }, { 'monthly' => 7 }, ],
+        crons               => {  'daily'   => { 'minute' => 30, 'hour' => 6, },
+                                  'weekly'  => { 'minute' => 30, 'hour' => 5, 'weekday'  => 6 },
+                                  'monthly' => { 'minute' => 30, 'hour' => 4, 'monthday' => 1 }, },
+        backups             => $backups, 
     }
 
-The "rsnapshot_backups" variable in Hiera would be in the same format as above, 
+The "backups" variable in Hiera would be in the same format as above, 
 for example
 
     rsnapshot::backups:

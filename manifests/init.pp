@@ -26,6 +26,8 @@
 #   of that type to retain.
 # [*crons*]
 #   A hash of rsnapshot::cron resources to to realize.
+# [*private_key_content*]
+#   The SSH private key to use to connect to the to-be-backed-up nodes.
 #
 # == Examples
 #
@@ -43,12 +45,13 @@
 #
 class rsnapshot
 (
+    String        $private_key_content,
     Boolean       $manage = true,
     String        $snapshot_root = '/var/backups/rsnapshot',
     Array[String] $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
     Array         $backups = [],
     Array         $retains = [],
-    Hash          $crons = {}
+    Hash          $crons = {},
 )
 {
 
@@ -57,10 +60,11 @@ if $manage {
     include ::rsnapshot::install
 
     class { '::rsnapshot::config':
-        snapshot_root => $snapshot_root,
-        excludes      => $excludes,
-        backups       => $backups,
-        retains       => $retains,
+        snapshot_root       => $snapshot_root,
+        excludes            => $excludes,
+        backups             => $backups,
+        retains             => $retains,
+        private_key_content => $private_key_content,
     }
 
     create_resources('rsnapshot::cron', $crons)
