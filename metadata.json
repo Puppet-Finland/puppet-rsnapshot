@@ -5,8 +5,8 @@
   "summary": "Setup rsnapshot",
   "license": "BSD-2-Clause",
   "source": "https://github.com/Puppet-Finland/puppet-rsnapshot.git",
-  "issues_url": "https://github.com/Puppet-Finland/puppet-rsnapshot/issues",
   "project_page": "https://github.com/Puppet-Finland/puppet-rsnapshot",
+  "issues_url": "https://github.com/Puppet-Finland/puppet-rsnapshot/issues",
   "dependencies": [
     {
       "name": "puppetfinland/os",
@@ -38,7 +38,7 @@
       "version_requirement": ">= 4.7.0 < 6.0.0"
     }
   ],
-  "pdk-version": "1.15.0",
-  "template-url": "pdk-default#1.15.0",
-  "template-ref": "tags/1.15.0-0-g0bc522e"
+  "pdk-version": "2.5.0",
+  "template-url": "pdk-default#2.5.0",
+  "template-ref": "tags/2.5.0-0-g369d483"
 }
