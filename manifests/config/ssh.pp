@@ -13,6 +13,14 @@ class rsnapshot::config::ssh (
   String $private_key_content
 
 ) inherits rsnapshot::params {
+
+  file { '/root/.ssh':
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0700',
+  }
+
   file { 'rsnapshot-private-ssh-key':
     ensure  => file,
     name    => '/root/.ssh/rsnapshot-private-ssh-key',
@@ -20,5 +28,6 @@ class rsnapshot::config::ssh (
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
+    require => File['/root/.ssh'],
   }
 }
