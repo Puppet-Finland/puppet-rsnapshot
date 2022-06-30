@@ -1,11 +1,9 @@
 #
-# Class: rsnapshot::install
+# @summary
+#   Install rsnapshot
 #
-# Install rsnapshot
-#
-class rsnapshot::install inherits rsnapshot::params {
+class rsnapshot::install {
   package { 'rsnapshot':
     ensure => installed,
-    name   => $rsnapshot::params::package_name,
   }
 }

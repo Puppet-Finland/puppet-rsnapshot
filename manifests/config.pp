@@ -17,7 +17,7 @@ class rsnapshot::config (
   Array  $retains,
   String $private_key_content,
 
-) inherits rsnapshot::params {
+) {
   # We need to convert the excludes parameter into actual rsnapshot config 
   # line here, because yaml does not like tabs, and rsnapshot.conf requires 
   # them. The $backups and $retains parameters contain hashes which are

@@ -38,8 +38,6 @@ define rsnapshot::cron (
   Optional[String]        $email = $rsnapshot::email,
 
 ) {
-  include rsnapshot::params
-
   # Set email for the cronjob if it is present
   if $email {
     $cron_environment = ['PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}"]
