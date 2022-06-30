@@ -8,18 +8,16 @@
 # /root/.ssh/authorized_keys; this is handled automatically in the
 # ::rsnapshot::allow class.
 #
-class rsnapshot::config::ssh
-(
-    String $private_key_content
+class rsnapshot::config::ssh (
+  String $private_key_content
 
 ) inherits rsnapshot::params {
-
-    file { 'rsnapshot-private-ssh-key':
-        ensure  => present,
-        name    => '/root/.ssh/rsnapshot-private-ssh-key',
-        content => $private_key_content,
-        owner   => $::os::params::adminuser,
-        group   => $::os::params::admingroup,
-        mode    => '0600',
-    }
+  file { 'rsnapshot-private-ssh-key':
+    ensure  => file,
+    name    => '/root/.ssh/rsnapshot-private-ssh-key',
+    content => $private_key_content,
+    owner   => $::os::params::adminuser,
+    group   => $::os::params::admingroup,
+    mode    => '0600',
+  }
 }
