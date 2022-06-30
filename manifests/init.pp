@@ -45,13 +45,14 @@
 #
 class rsnapshot
 (
-    String        $private_key_content,
-    Boolean       $manage = true,
-    String        $snapshot_root = '/var/backups/rsnapshot',
-    Array[String] $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
-    Array         $backups = [],
-    Array         $retains = [],
-    Hash          $crons = {},
+    String           $private_key_content,
+    Boolean          $manage = true,
+    String           $snapshot_root = '/var/backups/rsnapshot',
+    Array[String]    $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
+    Array            $backups = [],
+    Array            $retains = [],
+    Hash             $crons = {},
+    Optional[String] $email = undef,
 )
 {
 

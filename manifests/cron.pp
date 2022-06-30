@@ -36,11 +36,18 @@ define rsnapshot::cron
     Variant[String,Integer] $hour='*',
     Variant[String,Integer] $weekday='*',
     Variant[String,Integer] $monthday='*',
-    String                  $email=$::servermonitor
+    Optional[String]        $email = $rsnapshot::email,
+
 )
 {
-
     include ::rsnapshot::params
+
+    # Set email for the cronjob if it is present
+    if $email {
+      $cron_environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
+    } else {
+      $cron_environment => [ 'PATH=/bin:/usr/bin:/usr/sbin' ],
+    }
 
     # Setup a cronjob
     cron { "rsnapshot-${title}":
@@ -51,6 +58,6 @@ define rsnapshot::cron
         minute      => $minute,
         weekday     => $weekday,
         monthday    => $monthday,
-        environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
+        environment => $cron_environment,
     }
 }
