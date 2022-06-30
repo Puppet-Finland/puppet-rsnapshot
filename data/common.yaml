@@ -1,0 +1,18 @@
+---
+rsnapshot::crons:
+    daily:
+        minute: 0
+        hour: 2
+    weekly:
+        minute: 0
+        hour: 3
+        weekday: 3
+    monthly:
+        minute: 0
+        hour: 4
+        monthday: 1
+rsnapshot::retains:
+    - daily: 7
+    - weekly: 4
+    - monthly: 6
+rsnapshot::snapshot_root: '/var/backups/rsnapshot'
