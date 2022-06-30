@@ -1,9 +1,14 @@
 #
-# == Class: rsnapshot::config
+# @summary
+#   Class that configures rsnapshot. The actual configuration file is managed by a 
+#   define; this allows us to use rsnapshot::interval define to configure not only 
+#   cron, but also the backup retaining periods in rsnapshot.conf.
 #
-# Class that configures rsnapshot. The actual configuration file is managed by a 
-# define; this allows us to use rsnapshot::interval define to configure not only 
-# cron, but also the backup retaining periods in rsnapshot.conf.
+# @param snapshot_root
+# @param excludes
+# @param backups
+# @param retains
+# @param private_key_content
 #
 class rsnapshot::config (
   String $snapshot_root,
@@ -23,16 +28,16 @@ class rsnapshot::config (
   file { 'rsnapshot-snapshot-root':
     ensure => directory,
     name   => $snapshot_root,
-    owner  => $::os::params::adminuser,
-    group  => $::os::params::admingroup,
+    owner  => 'root',
+    group  => 'root',
     mode   => '0755',
   }
 
   file { 'rsnapshot.conf':
     ensure  => file,
     name    => '/etc/rsnapshot.conf',
-    owner   => $::os::params::adminuser,
-    group   => $::os::params::admingroup,
+    owner   => 'root',
+    group   => 'root',
     mode    => '0644',
     content => template('rsnapshot/rsnapshot.conf.erb'),
     require => File['rsnapshot-snapshot-root'],

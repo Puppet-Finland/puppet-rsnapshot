@@ -1,8 +1,13 @@
 #
-# == Class: rsnapshot::allow
+# @summary
+#   Allow access from the host running snapshot. This class can be converted into 
+#   a define when/if there are several hosts fetching data from a single node.
 #
-# Allow access from the host running snapshot. This class can be converted into 
-# a define when/if there are several hosts fetching data from a single node.
+# @param host
+# @param key
+# @param key_type
+# @param ensure
+# @param user
 #
 class rsnapshot::allow (
   String                   $host,

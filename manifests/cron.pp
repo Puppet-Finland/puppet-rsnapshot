@@ -30,34 +30,32 @@
 #
 # See README.md in the module root directory.
 #
-define rsnapshot::cron
-(
-    Variant[String,Integer] $minute,
-    Variant[String,Integer] $hour='*',
-    Variant[String,Integer] $weekday='*',
-    Variant[String,Integer] $monthday='*',
-    Optional[String]        $email = $rsnapshot::email,
+define rsnapshot::cron (
+  Variant[String,Integer] $minute,
+  Variant[String,Integer] $hour='*',
+  Variant[String,Integer] $weekday='*',
+  Variant[String,Integer] $monthday='*',
+  Optional[String]        $email = $rsnapshot::email,
 
-)
-{
-    include ::rsnapshot::params
+) {
+  include rsnapshot::params
 
-    # Set email for the cronjob if it is present
-    if $email {
-      $cron_environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
-    } else {
-      $cron_environment => [ 'PATH=/bin:/usr/bin:/usr/sbin' ],
-    }
+  # Set email for the cronjob if it is present
+  if $email {
+    $cron_environment = ['PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}"]
+  } else {
+    $cron_environment = ['PATH=/bin:/usr/bin:/usr/sbin']
+  }
 
-    # Setup a cronjob
-    cron { "rsnapshot-${title}":
-        ensure      => present,
-        command     => "rsnapshot ${title}",
-        user        => $::os::params::adminuser,
-        hour        => $hour,
-        minute      => $minute,
-        weekday     => $weekday,
-        monthday    => $monthday,
-        environment => $cron_environment,
-    }
+  # Setup a cronjob
+  cron { "rsnapshot-${title}":
+    ensure      => present,
+    command     => "rsnapshot ${title}",
+    user        => 'root',
+    hour        => $hour,
+    minute      => $minute,
+    weekday     => $weekday,
+    monthday    => $monthday,
+    environment => $cron_environment,
+  }
 }
