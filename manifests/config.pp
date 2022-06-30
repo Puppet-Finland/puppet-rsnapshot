@@ -47,9 +47,4 @@ class rsnapshot::config (
   class { 'rsnapshot::config::ssh':
     private_key_content => $private_key_content,
   }
-
-  # Patch a bug in rsnapshot in Debian Jessie
-  if $facts['os']['distro']['codename'] == 'jessie' {
-    include rsnapshot::config::jessie
-  }
 }
