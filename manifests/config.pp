@@ -5,6 +5,7 @@
 #   cron, but also the backup retaining periods in rsnapshot.conf.
 #
 # @param snapshot_root
+# @param ssh_args
 # @param excludes
 # @param backups
 # @param retains
@@ -12,6 +13,7 @@
 #
 class rsnapshot::config (
   String $snapshot_root,
+  String $ssh_args,
   Array  $excludes,
   Array  $backups,
   Array  $retains,

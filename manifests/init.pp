@@ -7,6 +7,8 @@
 #   Whether to manage rsnapshot with Puppet or not.
 # @param snapshot_root
 #   The directory where backups are placed.
+# @param ssh_args
+#   SSH options to use
 # @param excludes
 #   An array of paths to exclude. Define as [] to exclude nothing.
 # @param backups
@@ -30,6 +32,7 @@
 class rsnapshot (
   String           $private_key_content,
   String           $snapshot_root,
+  String           $ssh_args = '-p 22',
   Boolean          $manage = true,
   Array[String]    $excludes = ['/tmp', '/media', '/mnt', '/proc', '/sys'],
   Array            $backups = [],
@@ -42,6 +45,7 @@ class rsnapshot (
 
     class { 'rsnapshot::config':
       snapshot_root       => $snapshot_root,
+      ssh_args            => $ssh_args,
       excludes            => $excludes,
       backups             => $backups,
       retains             => $retains,
