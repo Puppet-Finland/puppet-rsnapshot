@@ -12,6 +12,7 @@
 #
 class rsnapshot::config (
   String $snapshot_root,
+  String $ssh_args,
   Array  $excludes,
   Array  $backups,
   Array  $retains,
