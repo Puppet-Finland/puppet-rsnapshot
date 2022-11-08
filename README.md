@@ -79,8 +79,71 @@ Finally run "rsnapshot daily" or such manually, and accept the SSH keys as
 needed. Later this manual procedure should be replaced with exported SSH host 
 keys (sshkey type) that are collected on the rsnapshot host.
 
+# Monitoring backups
+
+## rsnapshot::marker
+
+This module contains a class *rsnapshot::marker* that can be used to add
+"backup marker files". The idea is that cron updates the timestamp of the
+marker file, by default on a daily basis, and that marker file gets backed up.
+
+Example usage:
+
+```
+include rsnapshot::marker
+```
+
+To customize settings:
+
+```
+class { 'rsnapshot::marker':
+  path    => '/etc/.my-marker',
+  hour    => 5,
+  minute  => 0,
+  weekday => '1,3,5',
+}
+```
+
+## rsnapshot::prometheus_metrics
+
+On the rsnapshot server side the timestamps of the marker files allow gathering
+metrics about backup age, e.g. with Prometheus Node Exporter's Textfile
+Collector. If marker files are too old, the most likely cause is that backups
+are failing and an alert should be sent.
+
+The *rsnapshot::prometheus_metrics* class provides an easy way to generate
+Prometheus metrics from rsnapshot backups that have marker files. The class
+builds on top of the
+[prometheus-rsnapshot-metrics](https://github.com/Puppet-Finland/prometheus-rsnapshot-metrics)
+script.
+
+Example usage:
+
+```
+include rsnapshot::prometheus_metrics
+```
+
+To customize settings:
+
+```
+class { 'rsnapshot::prometheus_metrics':
+  metrics_file            => '/var/lib/node_exporter/textfile_collector/rsnapshot.prom',
+  latest_backup_directory => '/backup/daily.0',
+  marker_name             => '.my-marker',
+  max_backup_age_days     => 4,
+  max_depth               => 3,
+  hour                    => 6,
+  minute                  => 0,
+  weekday                 => '1,3,5',
+}
+```
+
+# Reference
+
 For more details on module usage refer to these source files:
 
 * [Class: rsnapshot](manifests/init.pp)
 * [Class: rsnapshot::allow](manifests/allow.pp)
+* [Class: rsnapshot::marker](manifests/marker.pp)
+* [Class: rsnapshot::prometheus_exporter](manifests/prometheus_exporter.pp)
 * [Define: rsnapshot::cron](manifests/cron.pp)

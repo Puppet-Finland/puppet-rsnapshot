@@ -59,7 +59,7 @@ lockfile	/var/run/rsnapshot.pid
 #rsync_long_args	--delete --numeric-ids --relative --delete-excluded --timeout=120
 
 # ssh has no args passed by default, but you can specify some here.
-ssh_args	-p 22 -i /root/.ssh/rsnapshot-private-ssh-key
+ssh_args	<%= @ssh_args %> -i /root/.ssh/rsnapshot-private-ssh-key
 
 # Args for "du"
 #du_args	-csh
