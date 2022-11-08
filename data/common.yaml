@@ -16,3 +16,7 @@ rsnapshot::retains:
     - weekly: 4
     - monthly: 6
 rsnapshot::snapshot_root: '/var/backups/rsnapshot'
+rsnapshot::marker::path: '/etc/.rsnapshot-marker'
+rsnapshot::marker::hour: 1
+rsnapshot::marker::minute: 58
+rsnapshot::marker::weekday: '*'
