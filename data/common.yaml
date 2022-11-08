@@ -17,6 +17,18 @@ rsnapshot::retains:
     - monthly: 6
 rsnapshot::snapshot_root: '/var/backups/rsnapshot'
 rsnapshot::marker::path: '/etc/.rsnapshot-marker'
+
+# Update marker files just before daily backups
 rsnapshot::marker::hour: 1
 rsnapshot::marker::minute: 58
 rsnapshot::marker::weekday: '*'
+
+# Gather Prometheus metrics after daily backups, just before weekly backups
+# kick in
+rsnapshot::prometheus_metrics::latest_backup_directory: '/var/backups/rsnapshot/daily.0'
+rsnapshot::prometheus_metrics::marker_name: '.rsnapshot-marker'
+rsnapshot::prometheus_metrics::max_backup_age_days: 2
+rsnapshot::prometheus_metrics::max_depth: 3
+rsnapshot::prometheus_metrics::hour: 2
+rsnapshot::prometheus_metrics::minute: 55
+rsnapshot::prometheus_metrics::weekday: '*'
