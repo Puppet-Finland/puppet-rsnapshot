@@ -2,6 +2,8 @@
 # @summary
 #   Generate Prometheus Textfile Collector metrics from rsnapshot backups
 #
+# @ensure
+#   State of the resources included in this class
 # @param metrics_file
 #   File to save metrics to. Must be in the Textfile Collector metrics directory.
 # @param latest_backup_directory
@@ -22,6 +24,7 @@
 #   Weekday when to generate metrics.
 #
 class rsnapshot::prometheus_metrics (
+  Enum['present', 'absent']                                           $ensure,
   Stdlib::AbsolutePath                                                $metrics_file,
   Stdlib::AbsolutePath                                                $latest_backup_directory,
   String                                                              $marker_name,
@@ -33,8 +36,13 @@ class rsnapshot::prometheus_metrics (
 ) {
   $script = '/usr/local/bin/create-rsnapshot-prometheus-metrics.sh'
 
+  $file_ensure = $ensure ? {
+    'present' => 'file',
+    'absent'  => 'absent',
+  }
+
   file { $script:
-    ensure  => file,
+    ensure  => $file_ensure,
     content => epp('rsnapshot/create-rsnapshot-prometheus-metrics.sh'),
     owner   => 'root',
     group   => 'root',
@@ -42,7 +50,7 @@ class rsnapshot::prometheus_metrics (
   }
 
   cron { 'update rsnapshot prometheus metrics':
-    ensure  => present,
+    ensure  => $ensure,
     command => "${script} -b ${latest_backup_directory} -m ${marker_name} -a ${max_backup_age_days} -d ${max_depth} > ${metrics_file}",
     user    => 'root',
     hour    => $hour,
