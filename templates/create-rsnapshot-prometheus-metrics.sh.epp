@@ -65,7 +65,21 @@ fi
 
 RSNAPSHOT_TARGETS_TOTAL=$(find "${LATEST_BACKUP_DIRECTORY}" -mindepth 1 -maxdepth 1 -type d|wc --lines)
 RSNAPSHOT_MARKERS_TOTAL=$(find "${LATEST_BACKUP_DIRECTORY}" -maxdepth $MAX_DEPTH -name "${MARKER_NAME}"|wc --lines)
-RSNAPSHOT_TARGETS_OUTDATED=$(find "${LATEST_BACKUP_DIRECTORY}" -maxdepth $MAX_DEPTH -name "${MARKER_NAME}" -mtime +$MAX_BACKUP_AGE_DAYS|wc --lines)
+
+# A simplistic "find -mtime +1" style check does not seem to work with hard
+# links, at least not when the file is just touched despite modification times
+# clearly showing the file is too old. So, use a more complex procedure to
+# figure which markers are outdated.
+RSNAPSHOT_TARGETS_OUTDATED=0
+CURR_TIME=$(date +'%s')
+
+for MTIME in $(find "${LATEST_BACKUP_DIRECTORY}" -maxdepth $MAX_DEPTH -name "${MARKER_NAME}" -printf '%T@\n'|cut -d "." -f 1); do
+    DIFF_TIME=$((CURR_TIME - MTIME ))
+    DIFF_TIME_DAYS=$((DIFF_TIME / 60 / 60 / 24))
+    if [ $DIFF_TIME_DAYS -ge $MAX_BACKUP_AGE_DAYS ]; then
+        RSNAPSHOT_TARGETS_OUTDATED=$((RSNAPSHOT_TARGETS_OUTDATED + 1))
+    fi
+done
 
 echo "# HELP rsnapshot_targets_total Number of rsnapshot backup targets"
 echo "# TYPE rsnapshot_targets_total gauge"
