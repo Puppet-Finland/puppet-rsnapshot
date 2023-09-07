@@ -2,7 +2,7 @@
 # @summary
 #   Generate Prometheus Textfile Collector metrics from rsnapshot backups
 #
-# @ensure
+# @param ensure
 #   State of the resources included in this class
 # @param metrics_file
 #   File to save metrics to. Must be in the Textfile Collector metrics directory.
