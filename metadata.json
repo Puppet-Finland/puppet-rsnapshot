@@ -1,6 +1,6 @@
 {
   "name": "puppetfinland-rsnapshot",
-  "version": "4.3.1",
+  "version": "4.4.0",
   "author": "Puppet-Finland team",
   "summary": "Setup rsnapshot",
   "license": "BSD-2-Clause",
