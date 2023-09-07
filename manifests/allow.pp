@@ -13,7 +13,7 @@
 # @param user
 #
 class rsnapshot::allow (
-  Stdlib::Host                                                $host,
+  String                                                      $host,
   String                                                      $key,
   Enum['dsa','ecdsa','ecdsa-sk','ed25519','ed25519-sk','rsa'] $key_type = 'rsa',
   Enum['present','absent']                                    $ensure = 'present',

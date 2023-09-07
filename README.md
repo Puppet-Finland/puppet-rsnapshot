@@ -72,8 +72,11 @@ Use the _rsnapshot::allow_ class to allow connections to hosts to be backed up:
     rsnapshot::allow::host: '10.122.49.4'
     rsnapshot::allow::key: '<rsnapshot's public key as a string>'
 
-The IP address is added to SSH authorized_keys options, so that the given key is 
-only valid if the connection comes from the given host.
+The value of *host* string is added to SSH authorized_keys *from* option, so
+that the given key is only valid if the connection matches the host pattern. For
+example to allow access from multiple IPv4 addresses:
+
+    rsnapshot::allow::host: '10.201.5.8,10.122.49.4'
 
 Finally run "rsnapshot daily" or such manually, and accept the SSH keys as 
 needed. Later this manual procedure should be replaced with exported SSH host 
